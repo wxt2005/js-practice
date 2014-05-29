@@ -3,6 +3,7 @@
     var buttons = skin.getElementsByTagName("li");
     var link = document.getElementById("skinlink");
 
+    //event listner
     var buttonListener = function(event) {
         if (event.target.tagName.toLowerCase() === "li") {
             for (var i = 0, l = buttons.length; i < l; i++) {
