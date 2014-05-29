@@ -5,11 +5,14 @@
 
     //event listner
     var buttonListener = function(event) {
-        if (event.target.tagName.toLowerCase() === "li") {
+        var event = event || window.event;
+        var target = event.target || event.srcElement;
+
+        if (target.tagName.toLowerCase() === "li") {
             for (var i = 0, l = buttons.length; i < l; i++) {
-                if (buttons[i] === event.target) {
+                if (buttons[i] === target) {
                     buttons[i].className = "current";
-                    link.href = "css\/" + event.target.id + ".css";  
+                    link.href = "css\/" + target.id + ".css";  
                 } else {
                     buttons[i].className = "";
                 }
@@ -17,5 +20,10 @@
         }
     };
 
-    skin.addEventListener("click", buttonListener, false);
+    if(skin.addEventListener) {
+        skin.addEventListener("click", buttonListener, false);
+    } else {
+        //IE 6 only
+        skin.attachEvent("onclick", buttonListener);
+    }
 })();
