@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>函数接受参数并弹出</title>
+        <meta charset="utf-8">
+        <style type="text/css">
+            body {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <form>
+            <p>省: <input type="text"  value="浙江省"></p>
+            <p>市: <input type="text"  value="杭州市"></p>
+            <p><button>传参</button></p>
+        </form>
+        <script>
+            var button = document.getElementsByTagName("button")[0];
+            var hander = function() {
+                var inputs = document.getElementsByTagName("input");
+                var province = inputs[0].value,
+                    city = inputs[1].value;
+                alert(province);
+                alert(city); 
+            };
+            window.onload = function() {
+                button.onclick = hander;    
+            }
+
+        </script>
+    </body>
+</html>
