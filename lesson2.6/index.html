@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>鼠标移入移出改变透明度</title>
+        <meta charset="utf-8">
+        <link href="" type="text/css" rel="stylesheet">
+        <script src="" type="text/javascript"></script>
+        <style type="text/css">
+            div#container {
+                width: 250px;
+                height: 250px;
+                border: 1px solid black;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                margin: -125px 0 0 -125px;
+            }
+            div img {
+                width: 200px;
+                height: 200px;
+                display: block;
+                border: 1px solid gray;
+                position: relative;
+                left: 50%;
+                top: 50%;
+                margin: -100px 0 0 -100px;
+                opacity: 0.5;
+                filter: alpha(opacity=50);
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload = function() {
+                var image = document.getElementsByTagName("img")[0];
+                image.onmouseover = function() {
+                    this.style.opacity = 1;
+                    if (this.filters) {
+                        this.filters.alpha.opacity = 100;
+                    }
+                };
+                image.onmouseout = function() {
+                    this.style.opacity = 0.5;
+                    if (this.filters) {
+                        this.filters.alpha.opacity = 50;
+                    }
+                };
+            };
+        </script>
+    </head>
+    <body>
+        <div id="container">
+            <img src="test.png" alt="test image">
+        </div>
+    </body>
+</html>
+
