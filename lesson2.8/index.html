@@ -84,7 +84,7 @@
                     msgContent = msgDiv.getElementsByTagName("p")[0];
                 var monthNow = (new Date()).getMonth();
                 buttonList[monthNow].className = "selected";
-                msgMonth.textContent = monthNow + 1;
+                msgMonth.innerHTML = monthNow + 1;
                 msgContent.innerHTML = msgList[monthNow];
                 for (var i = 0, l = buttonList.length; i < l; i++) {
                     (function(i) {
@@ -93,7 +93,7 @@
                                 buttonList[j].className = "";
                             }
                             buttonList[i].className = "selected";
-                            msgMonth.textContent = i + 1;
+                            msgMonth.innerHTML = i + 1;
                             msgContent.innerHTML = msgList[i];
                         };
                     })(i);
