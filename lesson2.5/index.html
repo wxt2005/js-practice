@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>传参改变div属性</title>
+        <meta charset="utf-8">
+        <style type="text/css">
+            body {
+                text-align: center;
+            }
+            div#test {
+                height: 180px;
+                width: 180px;
+                background: black;
+                color: white;
+                font-size: 12px;
+                padding: 10px;
+                text-align: left;
+                margin: auto;
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload = function() {
+                var testDiv = document.getElementById("test"),
+                    okButton = document.getElementsByTagName("button")[0],
+                    resetButton = document.getElementsByTagName("button")[1],
+                    testDefault = testDiv.style.cssText;
+                okButton.onclick = function() {
+                    attrName = document.getElementsByTagName("input")[0].value,
+                    attrValue = document.getElementsByTagName("input")[1].value;
+                    testDiv.style[attrName] = attrValue;
+                };
+                resetButton.onclick = function() {
+                    testDiv.style.cssText = testDefault;
+                };
+            };
+        </script>
+    </head>
+    <body>
+        <div id="attribute">
+            <p><label>属性名：<input type="text" value="background"></label></p>
+            <p><label>属性值：<input type="text" value="blue"></label></p>
+            <p>
+                <button>确定</button>
+                <button>重置</button>
+            </p>
+        </div>
+        <div id="test">
+            在上方输入框输入"属性名"及"属性值"，点击确定按钮查看效果。
+        </div>
+    </body>
+</html>
+
