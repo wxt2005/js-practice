@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>简易年历</title>
+        <meta charset="utf-8">
+        <style type="text/css">
+            body {
+                font-family: Tahoma;
+                line-height: 1.5;
+            }
+            ul, li, h2, p {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+            div#calendar {
+                background: #eaeaea;
+                width: 258px;
+                margin: 10px auto auto auto;
+                padding-bottom: 10px;
+            }
+            div#calendar ul {
+                overflow: hidden;
+            }
+            div#calendar li {
+                display: block;
+                width: 50px;
+                height: 50px;
+                margin: 10px 0 0 10px;
+                background: #424242;
+                color: white;
+                font-size: 14px;
+                float: left;
+                border: 1px solid black;
+                text-align: center;
+                cursor: pointer;
+            }
+            div#calendar li.selected {
+                background: white;
+                color: #ff6699;
+            }
+            div#calendar li span {
+                font-weight: bold;
+                font-size: 18px;
+                display: block;
+                width: 50px;
+                text-align: center;
+                line-height: 1;
+                margin: 4px auto 2px auto;
+            }
+            div#msg {
+                border: 1px solid white;
+                background: #f1f1f1;
+                margin: 10px 8px auto 8px;
+                padding: 5px;
+                color: #666;
+            }
+            div#msg h2 {
+                font-size: 14px;
+            }
+            div#msg p {
+                font-size: 12px;
+            }   
+        </style>
+        <script type="text/javascript">
+            window.onload = function() {
+                var msgList = [
+		            "元旦：1月1日至3日放假三天。",
+                    "春节：2月2日至8日放假7天。",
+                    "妇女节：3月8日妇女节，与我无关。",
+                    "清明节：4月3日至5日放假3天",
+                    "劳动节：4月30日至5月2日放假3天。",
+                    "端午节：6月4日至6日放假3天。",
+                    "小暑：7月7日小暑。不放假。",
+                    "七夕节：8月6日七夕节。不放假。",
+                    "中秋节：9月10日至12日放假3天。",
+                    "国庆节：10月1日至7日放假7天。",
+                    "立冬：11月8日立冬。不放假。",
+                    "艾滋病日:12月1日<br>废除奴隶制国际日:12月2日。"
+                ];
+                var buttonList = document.getElementById("calendar").getElementsByTagName("li"),
+                    msgDiv = document.getElementById("msg"),
+                    msgMonth = msgDiv.getElementsByTagName("span")[0],
+                    msgContent = msgDiv.getElementsByTagName("p")[0];
+                var monthNow = (new Date()).getMonth();
+                buttonList[monthNow].className = "selected";
+                msgMonth.textContent = monthNow + 1;
+                msgContent.innerHTML = msgList[monthNow];
+                for (var i = 0, l = buttonList.length; i < l; i++) {
+                    (function(i) {
+                        buttonList[i].onmouseover = function() {
+                            for (var j = 0, m = buttonList.length; j < m; j++) {
+                                buttonList[j].className = "";
+                            }
+                            buttonList[i].className = "selected";
+                            msgMonth.textContent = i + 1;
+                            msgContent.innerHTML = msgList[i];
+                        };
+                    })(i);
+                }
+            };
+        </script>
+    </head>
+    <body>
+        <div id="calendar">
+            <ul>
+                <li><span>1</span>JAN</li>
+                <li><span>2</span>FER</li>
+                <li><span>3</span>MAR</li>
+                <li><span>4</span>APR</li>
+                <li><span>5</span>MAY</li>
+                <li><span>6</span>JUN</li>
+                <li><span>7</span>JUL</li>
+                <li><span>8</span>AUG</li>
+                <li><span>9</span>SEP</li>
+                <li><span>10</span>OCT</li>
+                <li><span>11</span>NOV</li>
+                <li><span>12</span>DEC</li>
+            </ul>
+            <div id="msg">
+                <h2><span></span>月节日</h2>
+                <p></p>
+            </div>
+        </div>
+    </body>
+</html>
+
