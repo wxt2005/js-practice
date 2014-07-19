@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>单一按钮显示/隐藏</title>
+    <style type="text/css">
+        body, div, ul, li, h2 {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        ul {
+            list-style: none;
+        }
+        div#container {
+            width: 200px;
+            border: 1px solid #aaa;
+            margin: 10px auto;
+        }
+        div#container h2 {
+            cursor: pointer;
+            color: #57646E;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 30px;
+            padding-left: 10px;
+            background-color: #ced3d7;
+            border: 1px solid white;
+        }
+        div#container ul {
+            border-top: 1px solid #dee3e6;
+        }
+        div#container li {
+            height: 25px;
+            line-height: 25px;
+            vertical-align: top;
+        }
+        div#container a {
+            display: block;
+            color: #6b7980;
+            background-color: #e9edf2;
+            text-decoration: none;
+            padding: 0 10px;
+        }
+        div#container a:hover {
+            background-color: #ffffff;
+            text-decoration: underline;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function() {
+            var title = document.getElementsByTagName("h2")[0];
+            var list = document.getElementsByTagName("ul")[0];
+            title.onclick = function() {
+                if (!list.style.display) {
+                    list.style.display = "none"
+                } else {
+                    list.style.display = "";
+                }
+            };
+        };
+    </script>
+</head>
+<body>
+    <div id="container">
+        <h2>播放列表</h2>
+        <ul>
+            <li><a href="#">项目1</a></li>
+            <li><a href="#">项目2</a></li>
+            <li><a href="#">项目3</a></li>
+            <li><a href="#">项目4</a></li>
+            <li><a href="#">项目5</a></li>
+            <li><a href="#">项目6</a></li>
+        </ul>
+    </div>
+</body>
+</html>
