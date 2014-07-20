@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>鼠标移过改变图片路径</title>
+    <style type="text/css">
+        body, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: black;
+        }
+        img {
+            border: 1px solid black;
+            border-radius: 3px;
+        }
+        ul#box {
+            list-style: none;
+            width: 212px;
+            border: 5px solid white;
+            overflow: hidden;
+            zoom: 1;
+            border-radius: 5px;
+            margin: 10px auto;
+            padding: 0 0 3px 3px;
+            background-color: white;
+        }
+        #box li {
+            margin: 3px 3px 0 0;
+        }
+        ul#box li,
+        ul#box li img {
+            float: left;
+            width: 50px;
+            height: 50px;
+        }
+        ul#box li.first {
+            position: relative;
+        }
+        ul#box li.first,
+        ul#box li.first img {
+            width: 156px;
+            height: 156px;
+        }
+        ul#box li.first div {
+            width: 158px;
+            height: 158px;
+            background: #fff url("img/loading.gif") 50% 50% no-repeat;
+            z-index: 1;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+            display: none;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function() {
+            var images = document.getElementsByTagName("img");
+            var div = document.getElementsByTagName("div")[0];
+            for (var i = 1, l = images.length; i < l; i++) {
+                (function(j) {
+                    images[i].onmouseover = function() {
+                        div.style.display = "block";
+                        images[0].src = images[j].src.replace(/small/, "big");
+                        images[0].complete ? div.style.display = "none" : (images[0].onload = function() {
+                            div.style.display = "none";
+                        })
+                    }
+                })(i);
+            }
+        };
+    </script>
+</head>
+<body>
+    <ul id="box">
+        <li class="first">
+            <img src="img/big/1.png" alt="full image">
+            <div></div>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="img/small/1.png" alt="small image No.1"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="img/small/2.png" alt="small image No.2"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="img/small/3.png" alt="small image No.3"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="img/small/4.png" alt="small image No.4"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="img/small/5.png" alt="small image No.5"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="img/small/6.png" alt="small image No.6"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="img/small/7.png" alt="small image No.7"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="img/small/8.png" alt="small image No.8"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="img/small/9.png" alt="small image No.9"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="img/small/10.png" alt="small image No.10"></a>
+        </li>
+        <li>
+            <a href="javascript:;"><img src="img/small/11.png" alt="small image No.11"></a>
+        </li>
+    </ul>
+</body>
+</html>
