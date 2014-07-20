@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>提示框效果</title>
+    <style type="text/css">
+        body, div {
+            margin: 0;
+            padding: 0;
+        }
+        div#container {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            position: relative;
+        }
+        div#inner {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -26px;
+            margin-top: -26px;
+            cursor: crosshair;
+            text-align: center;
+        }
+        div#inner:hover {
+            width: 100px;
+            height: 100px;
+            margin-left: -51px;
+            margin-top: -51px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="inner">
+            <p>Test Text</p>
+        </div>
+    </div>
+</body>
+</html>
