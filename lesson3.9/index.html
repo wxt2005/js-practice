@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>倒计时100秒</title>
+    <style type="text/css">
+        div {
+            width: 300px;
+            background-color: #000000;
+            text-align: center;
+            margin: 10px auto;
+            padding: 20px 0;
+            color: #ffffff;
+        }
+        span {
+            color: #000000;
+            background-color: #fbfbfb;
+            width: 80px;
+            line-height: 2;
+            border: 2px solid #b4b4b4;
+            margin: 0 5px;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            var spans = document.getElementsByTagName("span");
+            var button = document.getElementsByTagName("input")[0];
+            var timer = null; //存放计时器
+            var i = 100; //倒计时
+            //格式化时间显示
+            function format(num) {
+                if (("" + num).length === 1) {
+                    return "0" + num;
+                } else {
+                    return "" + num;
+                }
+            }
+            //更新显示
+            function updateDisplay() {
+                spans[0].innerHTML = format(Math.floor(i / 60));
+                spans[1].innerHTML = format(i % 60);
+            }
+            //更新倒计时
+            function updateTime() {
+                i--;
+                updateDisplay();
+                if (i <= 0) {
+                    reset(timer);
+                }
+            }
+            //重置按钮与倒计时
+            function reset(timer) {
+                clearInterval(timer);
+                button.value = "启动";
+                i = 100;
+                updateDisplay();
+            }
+            button.onclick = function() {
+                if (this.value === "启动") {
+                    timer = setInterval(updateTime, 1000);
+                    this.value = "取消";
+                } else {
+                    reset(timer);
+                }
+            };
+            updateDisplay();
+        };
+    </script>
+</head>
+<body>
+    <div>
+        <span>00</span>分钟<span>00</span>秒
+        <input type="button" value="启动">
+    </div>
+</body>
+</html>
