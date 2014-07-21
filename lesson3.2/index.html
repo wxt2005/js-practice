@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>parseint解析数字</title>
+    <style type="text/css">
+        input[type="text"] {
+            width: 50px;
+        }
+        input[type="button"] {
+            margin-left: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function() {
+            var inputs = document.getElementsByTagName("input");
+            var num1 = inputs[0],
+                num2 = inputs[1],
+                sumButton = inputs[2];
+            var result = document.getElementsByTagName("span")[0];
+            sumButton.onclick = function() {
+                result.innerHTML = parseInt((num1.value || 0), 10) + parseInt((num2.value || 0), 10);
+            };
+            for (var i = 0, l = inputs.length - 1; i < l; i++) {
+                inputs[i].onkeyup = function() {
+                    this.value = this.value.replace(/[^\d]/, "");
+                };
+            }
+        };
+    </script>
+</head>
+<body>
+    <p>
+        <input type="text"> + <input type="text"> = <span>?</span><input type="button" value="求和">
+    </p>
+</body>
+</html>
