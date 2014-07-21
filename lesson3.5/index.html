@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>页面加载后累加</title>
+    <script type="text/javascript">
+        window.onload = function () {
+            var num = document.getElementsByTagName("p")[0];
+            function addOne() {
+                num.innerHTML = +num.innerHTML + 1;
+            }
+            setInterval(addOne, 1000);
+        };
+    </script>
+</head>
+<body>
+    <p>0</p>
+</body>
+</html>
