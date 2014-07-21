@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>累加按钮</title>
+    <script type="text/javascript">
+        window.onload = function() {
+            var button = document.getElementsByTagName("input")[0];
+            button.onclick = function() {
+                this.value = +this.value + 1;
+                alert(this.value);
+            };
+        };
+    </script>
+</head>
+<body>
+    <input type="button" value="0">
+</body>
+</html>
