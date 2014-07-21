@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>网页计算器</title>
+    <style type="text/css">
+        body, div, ul, li, input {
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            padding: 0 0 17px 8px;
+            list-style: none;
+            overflow: hidden;
+            zoom: 1;
+            position: relative;
+            top: 50px;
+        }
+        li {
+            cursor: pointer;
+        }
+        div#cal {
+            width: 300px;
+            margin: 10px auto;
+            background-color: yellow;
+            position: relative;
+            height: 350px;
+        }
+        div#cal ul li {
+            float: left;
+            display: block;
+            width: 63px;
+            height: 41px;
+            margin: 17px 10px 0 0;
+            background-color: gray;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            line-height: 41px;
+            text-align: center;
+        }
+        div#cal ul li:focus,
+        div#cal ul li:hover,
+        div#cal ul li:active {
+            background-color: darkgray;
+        }
+        div#cal ul li.button1 {
+            background-color: blue;;
+        }
+        div#cal ul li.button1:focus,
+        div#cal ul li.button1:hover,
+        div#cal ul li.button1:active {
+            background-color: darkblue;
+        }
+        div#cal ul li.button2 {
+            width: 136px;
+        }
+        div#cal ul li.button3 {
+            height: 99px;
+            position: absolute;
+            bottom: 17px;
+            right: 0;
+            line-height: 99px;
+        }
+        input {
+            position: absolute;
+            right: 10px;
+            text-align: right;
+        }
+        input#formula {
+            top: 10px;
+        }
+        input#result {
+            top: 35px;
+        }
+        label {
+            position: absolute;
+            right: 170px;
+            font-size: 12px;
+        }
+        label[for="formula"] {
+            top: 12px;
+        }
+        label[for="result"] {
+            top: 37px;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            var panel = document.getElementsByTagName("ul")[0];
+            var resultDisplay = document.getElementById("result"),
+                formulaDisplay = document.getElementById("formula");
+            var flag = false, //标记是否已按下运算符
+                operator = ""; //记录操作符
+            var num1 = 0, //数字1
+                num2 = 0, //数字2
+                formula = ""; //公式字符串
+            //按下数字的操作
+            function hitNum(newNum) {
+                switch (newNum) {
+                    case ".":
+                        if (flag && !(/\./.test(num2))) {
+                            num2 = num2 + newNum;
+                        } else if (!(/\./.test(num1))) {
+                            num1 = num1 + newNum;
+                        }
+                        break;
+                    case "%":
+                        if (flag) {
+                            num2 = num2 * 0.01;
+                            resultDisplay.value = num2;
+                        } else {
+                            num1 = num1 * 0.01;
+                            resultDisplay.value = num1;
+                        }
+                        break;
+                    default:
+                        if (flag) {
+                            num2 = +(num2 + newNum);
+                            resultDisplay.value = num2;
+                        } else {
+                            num1 = +(num1 + newNum);
+                            resultDisplay.value = num1;
+                        }
+                }
+                formula += newNum;
+                formulaDisplay.value = formula;
+            }
+            //按下运算符的操作
+            function hitOperator() {
+                if (flag) {
+                    switch (operator) {
+                        case "+":
+                            num1 = num1 + num2;
+                            break;
+                        case "-":
+                            num1 = num1 - num2;
+                            break;
+                        case "*":
+                            num1 = num1 * num2;
+                            break;
+                        case "/":
+                            num1 = num1 / num2;
+                            break;
+                    }
+                    num2 = 0;
+                } else {
+                    flag = true;
+                }
+                resultDisplay.value = operator;
+            }
+            //事件代理
+            panel.onclick = function (event) {
+                var ev = event || window.event;
+                var target = ev.target || ev.srcElement;
+                switch (target.innerHTML.replace(" ", "")) {
+                    case "c":
+                        resultDisplay.value = "0";
+                        formulaDisplay.value = "";
+                        formula = "";
+                        num1 = 0;
+                        num2 = 0;
+                        console.log(num1, num2, operator);
+                        break;
+                    case "0":
+                    case "1":
+                    case "2":
+                    case "3":
+                    case "4":
+                    case "5":
+                    case "6":
+                    case "7":
+                    case "8":
+                    case "9":
+                    case ".":
+                    case "%":
+                        hitNum(target.innerHTML.replace(" ", ""));
+                        break;
+                    case "+":
+                    case "-":
+                        hitOperator();
+                        operator = target.innerHTML.replace(" ", "");
+                        formula += operator;
+                        formulaDisplay.value = formula;
+                        break;
+                    case "*":
+                    case "/":
+                        hitOperator();
+                        operator = target.innerHTML.replace(" ", "");
+                        //多于一个数字时，用括号包裹前面的公式
+                        if (/[\+\-\*\/]/.test(formula)) {
+                            formula = "(" + formula + ")" + operator;
+                        } else {
+                            formula += operator;
+                        }
+                        formulaDisplay.value = formula;
+                        break;
+                    case "=":
+                        hitOperator();
+                        flag = false;
+                        resultDisplay.value = num1;
+                        formula += "=" + num1;
+                        formulaDisplay.value = formula;
+                        break;
+                }
+            };
+        };
+    </script>
+</head>
+<body>
+    <div id="cal">
+        <label for="formula">公式</label><input type="text" id="formula" name="formula" readonly="readonly">
+        <label for="result">结果</label><input type="text" id="result" name="result" readonly="readonly" value="0">
+        <ul>
+            <li class="button1">c</li>
+            <li class="button1">%</li>
+            <li class="button1">/</li>
+            <li class="button1">*</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li class="button1">-</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li class="button1">+</li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li class="button2">0</li>
+            <li>.</li>
+            <li class="button3">=</li>
+        </ul>
+    </div>
+</body>
+</html>
