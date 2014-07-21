@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>比较数字大小</title>
+    <style type="text/css">
+        input[type="text"] {
+            width: 50px;
+        }
+        input[type="button"] {
+            margin-left: 10px;
+        }
+        p span {
+            margin-left: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function() {
+            var inputs = document.getElementsByTagName("input");
+            var num1 = inputs[0],
+                num2 = inputs[1],
+                button = inputs[2];
+            var result = document.getElementsByTagName("span")[0];
+            for (var i = 0, l = inputs.length - 1; i < l; i++) {
+                inputs[i].onkeyup = function() {
+                    this.value = this.value.replace(/[^\d]/, "");
+                };
+            }
+            button.onclick = function () {
+                var n1 = +num1.value || 0;
+                var n2 = +num2.value || 0;
+                result.innerHTML = n1 > n2 ? n1 : n2;
+            };
+        };
+    </script>
+</head>
+<body>
+    <p>
+        <input type="text"> vs <input type="text"><input type="button" value="较大的数是"><span>?</span>
+    </p>
+</body>
+</html>
