@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>星级评分系统</title>
+    <style type="text/css">
+        body, ul, li, p, div {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font: 12px/1.5 Arial, sans-serif;
+        }
+        ul {
+            list-style-type: none;
+        }
+        #star {
+            position: relative;
+            width: 600px;
+            margin: 10px auto;
+        }
+        #star span,
+        #star ul {
+            float: left;
+            height: 19px;
+            line-height: 19px;
+        }
+        #star ul {
+            margin: 0 10px;
+        }
+        #star ul li {
+            float: left;
+            width: 24px;
+            cursor: pointer;
+            background: url("img/star.png") no-repeat;
+            text-indent: -9999px;
+        }
+        #star ul li.on {
+            background-position: 0 -28px;
+        }
+        #star p {
+            position: absolute;
+            top: 20px;
+            width: 159px;
+            height: 60px;
+            background: url("img/tip.gif") no-repeat;
+            padding: 7px 10px 0 10px;
+            display: none;
+        }
+        #star p em {
+            color: #f60;
+            display: block;
+            font-style: normal;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function() {
+            var starDiv = document.getElementById("star");
+            var stars = starDiv.getElementsByTagName("li");
+            var content = starDiv.getElementsByTagName("span")[1];
+            var tip = starDiv.getElementsByTagName("p")[0];
+            var score = 0, i = 0, l = 0;
+            var messages = [
+                "很不满意|差得太离谱，与卖家描述的严重不符，非常不满",
+                "不满意|部分有破损，与卖家描述的不符，不满意",
+                "一般|质量一般，没有卖家描述的那么好",
+                "满意|质量不错，与卖家描述的基本一致，还是挺满意的",
+                "非常满意|质量非常好，与卖家描述的完全一致，非常满意"
+            ];
+            //以score为依据进行显示
+            function display(scoreArg) {
+                for (i = 0, l = stars.length; i < l; i++) {
+                    if (i < (scoreArg || score)) {
+                        stars[i].className = "on";
+                    } else {
+                        stars[i].className = "";
+                    }
+                }
+            }
+            for (i = 0, l = stars.length; i < l; i++) {
+                (function(j) {
+                    stars[i].onmouseover = function() {
+                        display(j + 1);
+                        tip.style.display = "block";
+                        tip.style.left = stars[0].offsetLeft + (j + 1) * this.offsetWidth - 104 + "px";
+                        tip.innerHTML = "<em><b>" + (j + 1) + "</b> 分 " + messages[j].match(/(.+)\|/)[1] +
+                                        "</em>" + messages[j].match(/\|(.+)/)[1];
+                    };
+                })(i);
+                stars[i].onmouseout = function() {
+                    display();
+                    tip.style.display = "none";
+                };
+                (function(j) {
+                    stars[i].onclick = function() {
+                        score = j + 1;
+                        content.innerHTML = "<strong>" + (j + 1) + " 分</strong>(" + messages[j]
+                                            .match(/\|(.+)/)[1] + ")";
+                    };
+                })(i);
+            }
+        };
+    </script>
+</head>
+<body>
+    <div id="star">
+        <span>点击星星就能打分</span>
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+        <span></span>
+        <p></p>
+    </div>
+</body>
+</html>
