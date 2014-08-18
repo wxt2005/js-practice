@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>模拟select控件</title>
+        <meta charset="utf-8">
+        <script type="text/javascript">
+            window.onload = function() {
+                var span = document.getElementsByTagName("span")[0];
+                var ul = document.getElementsByTagName("ul")[0];
+                var li = ul.getElementsByTagName("li");
+
+                span.onclick = function() {
+                    ul.style.display = ul.style.display === "none" ? "block" : "none";
+                    (event || window.event).cancelBubble = true;
+                };
+
+                for (var i = 0, l = li.length; i < l; i++) {
+                    (function(j) {
+                        li[i].onclick = function() {
+                            span.innerHTML = li[j].innerHTML;
+                            ul.style.display = "none";
+                        }
+                    })(i);
+                }
+
+                document.onclick = function() {
+                    ul.style.display = "none";
+                }
+            };
+        </script>
+        <style type="text/css">
+            body {
+                background: #23384e;
+            }
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+            #search {
+                width: 150px;
+                margin: 10px auto;
+                background: gray;
+                height: 20px;
+            }
+            #box {
+                width: 100%;
+            }
+            #box form span {
+                width: 100px;
+                background: white;
+                display: block;
+                float: left;
+                cursor: pointer;
+            }
+            #box form a {
+                float: right;
+            }
+            #search ul {
+                clear: both;
+                width: 100px;
+                background: darkgray;
+            }
+            #search ul li {
+                cursor: pointer;
+            }
+            #search ul li:hover {
+                background: gray;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="search">
+            <div id="box">
+                <form>
+                    <span class="select">请选择</span>
+                    <a href="javascript:;">搜索</a>
+                </form>
+            </div>
+            <ul class="sub" style="display:none">
+                <li>option1</li>
+                <li>option2</li>
+                <li>option3</li>
+                <li>option4</li>
+                <li>option5</li>
+                <li>option6</li>
+                <li>option7</li>
+                <li>option8</li>
+                <li>option9</li>
+            </ul>
+        </div>
+    </body>
+</html>
