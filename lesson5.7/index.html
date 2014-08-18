@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>键盘控制div</title>
+        <style type="text/css">
+            body {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+            #box {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 100px;
+                height: 100px;
+                background: red;
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload = function() {
+                var box = document.getElementById("box");
+                var left = false,
+                    top = false,
+                    right = false,
+                    bottom = false,
+                    ctrl = false;
+                function limit() {
+                    var doc = [document.documentElement.clientWidth,
+                        document.documentElement.clientHeight];
+                    if (box.offsetLeft <= 0) {
+                        box.style.left = 0;
+                    } else if (box.offsetTop <= 0) {
+                        box.style.top = 0;
+                    } else if (doc[0] - box.offsetWidth - box.offsetLeft <= 0) {
+                        box.style.left = (doc[0] - box.offsetWidth) + "px";
+                    } else if (doc[1] - box.offsetHeight - box.offsetTop <= 0) {
+                        box.style.top = (doc[1] - box.offsetHeight) + "px";
+                    }
+                }
+                setInterval(function() {
+                    if (left) {
+                        box.style.left = (box.offsetLeft - 10) + "px";
+                    } else if (right) {
+                        box.style.left = (box.offsetLeft + 10) + "px";
+                    } else if (top) {
+                        box.style.top = (box.offsetTop - 10) + "px";
+                    } else if (bottom) {
+                        box.style.top = (box.offsetTop + 10) + "px";
+                    }
+                    limit();
+                }, 30);
+                document.onkeydown = function(event) {
+                    var ev = event || window.event;
+                    ctrl = ev.ctrlKey;
+                    switch (ev.keyCode) {
+                        case 37:
+                            left = true;
+                            break;
+                        case 38:
+                            if (ctrl) {
+                                var oldWidth = box.offsetWidth;
+                                var oldHeight = box.offsetHeight;
+
+                                box.style.width = box.offsetWidth * 1.5 + "px";
+                                box.style.height = box.offsetHeight * 1.5 + "px";
+
+                                box.style.left = box.offsetLeft - (box.offsetWidth - oldWidth) / 2 + "px";
+                                box.style.top = box.offsetTop - (box.offsetHeight - oldHeight) / 2 + "px";
+                                break;
+                            }
+                            top = true;
+                            break;
+                        case 39:
+                            right = true;
+                            break;
+                        case 40:
+                            if (ctrl) {
+                                var oldWidth = box.offsetWidth;
+                                var oldHeight = box.offsetHeight;
+
+                                box.style.width = box.offsetWidth * 0.75 + "px";
+                                box.style.height = box.offsetHeight * 0.75 + "px";
+
+                                box.style.left = box.offsetLeft - (box.offsetWidth - oldWidth) / 2 + "px";
+                                box.style.top = box.offsetTop - (box.offsetHeight - oldHeight) / 2 + "px";
+                                break;
+                            }
+                            bottom = true;
+                            break;
+                        case 49:
+                            if (ctrl) {
+                                box.style.background = "green";
+                            }
+                            break;
+                        case 50:
+                            if (ctrl) {
+                                box.style.background = "yellow";
+                            }
+                            break;
+                        case 51:
+                            if (ctrl) {
+                                box.style.background = "blue";
+                            }
+                            break;
+                    }
+                    return false;
+                };
+                document.onkeyup = function(event) {
+                    var ev = event || window.event;
+                    switch (ev.keyCode) {
+                        case 37:
+                            left = false;
+                            break;
+                        case 38:
+                            top = false;
+                            break;
+                        case 39:
+                            right = false;
+                            break;
+                        case 40:
+                            bottom = false;
+                            break;
+                    }
+                };
+            };
+        </script>
+    </head>
+    <body>
+        <div id="box"></div>
+    </body>
+</html>
