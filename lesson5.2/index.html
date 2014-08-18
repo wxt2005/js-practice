@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>点击页面显示坐标</title>
+        <script type="text/javascript">
+            document.onclick = function(event) {
+                var ev = event || window.event;
+                alert("x:" + ev.clientX + " y:" + ev.clientY);
+            };
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>
