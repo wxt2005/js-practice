@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>自定义右键菜单</title>
+        <style media="screen">
+            body, ul, li {
+                margin: 0;
+                padding: 0;
+            }
+            ul {
+                list-style: none;
+            }
+            #menu {
+                width: 50px;
+                background: gray;
+                cursor: pointer;
+                position: absolute;
+            }
+            #menu li {
+                padding: 5px 0 5px 0;
+                text-align: center;
+            }
+            #menu li:hover {
+                background: darkgray;
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload = function() {
+                var menu = document.getElementById("menu");
+                menu.style.display = "none";
+                document.oncontextmenu = function(event) {
+                    var ev = event || window.event;
+                    menu.style.display = "block";
+                    menu.style.left = ev.clientX + "px";
+                    menu.style.top = ev.clientY + "px";
+                    return false;
+                }
+            };
+        </script>
+    </head>
+    <body>
+        <p>自定义右键菜单，请在页面点击右键查看效果。</p>
+        <ul id="menu">
+            <li>复制</li>
+            <li>黏贴</li>
+            <li>剪贴</li>
+        </ul>
+    </body>
+</html>
