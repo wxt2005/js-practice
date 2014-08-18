@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>完美拖拽</title>
+        <style type="text/css">
+            body, div, h2, p {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                background: black;
+                color: white;
+            }
+            p {
+                padding: 0 10px;
+                margin-top: 10px;
+            }
+            #box {
+                position: absolute;
+                width: 300px;
+                height: 150px;
+                background: #333;
+                border: 2px solid #ccc;
+                top: 50%;
+                left: 50%;
+                margin: -75px 0 0 -150px;
+            }
+            #box h2 {
+                height: 25px;
+                cursor: move;
+                background: #222;
+                border-bottom: 2px solid #ccc;
+                text-align: right;
+                padding: 0 10px;
+            }
+            #box h2 a {
+                color: #fff;
+                text-decoration: none;
+                font-size: 14px;
+                line-height: 25px;
+                vertical-align: top;
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload = function() {
+                var box = document.getElementById("box");
+                var h2 = box.getElementsByTagName("h2")[0];
+                var link = box.getElementsByTagName("a")[0];
+                var span = box.getElementsByTagName("span");
+                var drag = false;
+                var mouseX = 0, mouseY = 0;
+                var pos = [{x: box.offsetLeft, y: box.offsetTop}]
+                function status() {
+                    span[0].innerHTML = drag;
+                    span[1].innerHTML = box.offsetTop;
+                    span[2].innerHTML = box.offsetLeft;
+                }
+                link.onmousedown = function(event) {
+                    (event || window.event).cancelBubble = true;
+                };
+                h2.onmousedown = function(event) {
+                    var ev = event || window.event;
+                    drag = true;
+                    mouseX = ev.clientX - box.offsetLeft;
+                    mouseY = ev.clientY - box.offsetTop;
+
+                    pos.push({x: box.offsetLeft, y: box.offsetTop});
+
+                    if (this.setCapture) {
+                        this.setCaptrue();
+                    }
+
+                    return false;
+                };
+                document.onmousemove = function(event) {
+                    if (!drag) {
+                        return;
+                    }
+                    var ev = event || window.event;
+                    var left = ev.clientX - mouseX,
+                        top = ev.clientY - mouseY;
+                    var maxLeft = document.documentElement.clientWidth - box.offsetWidth,
+                        maxTop = document.documentElement.clientHeight - box.offsetHeight;
+
+                    left = left < 0 ? 0 : left;
+                    left = left > maxLeft ? maxLeft : left;
+
+                    top = top < 0 ? 0 : top;
+                    top = top > maxTop ? maxTop : top;
+
+                    box.style.marginTop = 0;
+                    box.style.marginLeft = 0;
+                    box.style.left = left + "px";
+                    box.style.top = top + "px";
+
+                    pos.push({x: left, y: top});
+
+                    status();
+
+                    return false;
+                };
+                document.onmouseup = function() {
+                    drag = false;
+                    if (h2.releaseCapture) {
+                        h2.releaseCapture();
+                    }
+                    status();
+                };
+                link.onclick = function() {
+                    var timer = null;
+                    var position = null;
+                    if (pos.length <= 1) {
+                        return;
+                    } else {
+                        timer = setInterval(function() {
+                            position = pos.pop();
+                            if (position) {
+                                box.style.left = position.x + "px";
+                                box.style.top = position.y + "px";
+                                status();
+                            } else {
+                                clearInterval(timer);
+                            }
+                        }, 30);
+                    }
+                };
+                window.onblur = document.onmouseup;
+                h2.onlosecapture = document.onmouseup;
+                status();
+            }
+        </script>
+    </head>
+    <body>
+        <div id="box">
+            <h2><a href="javascript:;">点击回放</a></h2>
+            <p>
+                Drah:<span>false</span>
+            </p>
+            <p>
+                offsetTop:<span></span>
+            </p>
+            <p>
+                offsetLeft:<span></span>
+            </p>
+        </div>
+    </body>
+</html>
