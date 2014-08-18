@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>跟随鼠标移动</title>
+        <script type="text/javascript">
+            window.onload = function() {
+                var box = document.getElementById("box");
+                var big = document.getElementById("big");
+                box.onmouseover = function() {
+                    var img = document.createElement("img");
+                    img.src = this.getElementsByTagName("img")[0].src.replace(/small/,"big");
+                    img.style.width = "400px";
+                    img.style.height = "400px";
+                    big.appendChild(img);
+                    big.style.display = "block";
+                };
+                box.onmouseout = function() {
+                    big.removeChild(big.lastChild);
+                    big.style.display = "none";
+                };
+                box.onmousemove = function(event) {
+                    var ev = event || window.event;
+                    var rightWidth = document.body.offsetWidth - ev.clientX;
+                    big.style.top = (ev.clientY + 20) + "px";
+                    if (rightWidth < big.offsetWidth + 10) {
+                        big.style.left = (ev.clientX - big.offsetWidth - 10) + "px"
+                    } else {
+                        big.style.left = (ev.clientX + 10) + "px";
+                    }
+                }
+            }
+        </script>
+        <style type="text/css">
+            #box {
+                width: 172px;
+                height: 172px;
+                border: 1px solid transparent;
+                margin: 10px auto;
+                cursor: pointer;
+            }
+            #box img {
+                text-align: center;
+                vertical-align: middle;
+                border: 1px solid black;
+                height: 170px;
+                width: 170px;
+            }
+            #box:hover {
+                border: 1px solid black;
+            }
+            #big {
+                background: url("img/loading.gif") 50% 50% no-repeat;
+                width: 400px;
+                height: 400px;
+                position: absolute;
+                border: 1px solid gray;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="box">
+            <img src="img/small.jpg" alt="azusa">
+        </div>
+        <div id="big" style="display:none">
+        </div>
+    </body>
+</html>
