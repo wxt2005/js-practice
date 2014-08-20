@@ -107,6 +107,11 @@ a {
     background: #86c31f;
     border-radius: 6px;
     border: 2px solid gray;
+    outline: none;
+}
+
+#msgBox form #send.disabled {
+    background: gray;
 }
 
 #msgBox form #send:hover {
@@ -114,6 +119,10 @@ a {
 }
 
 #msgBox form div p span {
+    vertical-align: top;
+}
+
+#msgBox form div p .max {
     font-size: 25px;
     line-height: 30px;
     padding: 0 5px;

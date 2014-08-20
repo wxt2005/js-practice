@@ -12,7 +12,7 @@
                 <div>
                     <input type="text" name="userName" id="userName">
                     <p id="avatarList">
-                        <img src="img/icon1.jpg" alt="avatar1">
+                        <img src="img/icon1.jpg" alt="avatar1" class="current">
                         <img src="img/icon2.jpg" alt="avatar2">
                         <img src="img/icon3.jpg" alt="avatar3">
                         <img src="img/icon4.jpg" alt="avatar4">
@@ -26,8 +26,8 @@
                     <textarea name="comment" id="comment"></textarea>
                 </div>
                 <div>
-                    <p>
-                        还能输入<span>140</span>个字
+                    <p id="count">
+                        <span>还能输入</span><span class="max">140</span>个字
                         <input type="button" name="send" id="send" value="发送" title="Ctrl+Enter">
                     </p>
                 </div>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="time">
                                 <span>08月19日 14:00</span>
-                                <a href="javascript:;">删除</a>
+                                <a href="javascript:;" class="del">删除</a>
                             </div>
                         </div>
                     </li>
@@ -65,7 +65,7 @@
                             </div>
                             <div class="time">
                                 <span>08月19日 14:00</span>
-                                <a href="javascript:;">删除</a>
+                                <a href="javascript:;" class="del">删除</a>
                             </div>
                         </div>
                     </li>
@@ -75,14 +75,14 @@
                         </div>
                         <div class="content">
                             <div class="userName">
-                                <a href="javascript:;">@wxt2005</a>:
+                                <a href="javascript:;" class="del">@wxt2005</a>:
                             </div>
                             <div class="msg">
                                 增加了记录广播时间的功能。
                             </div>
                             <div class="time">
                                 <span>08月19日 13:00</span>
-                                <a href="javascript:;">删除</a>
+                                <a href="javascript:;" class="del">删除</a>
                             </div>
                         </div>
                     </li>
@@ -99,7 +99,7 @@
                             </div>
                             <div class="time">
                                 <span>08月19日 13:00</span>
-                                <a href="javascript:;">删除</a>
+                                <a href="javascript:;" class="del">删除</a>
                             </div>
                         </div>
                     </li>
@@ -116,12 +116,13 @@
                             </div>
                             <div class="time">
                                 <span>08月19日 12:00</span>
-                                <a href="javascript:;">删除</a>
+                                <a href="javascript:;" class="del">删除</a>
                             </div>
                         </div>
                     </li>
                 </ul>
             </div>
         </div>
+        <script src="main.js" charset="utf-8" type="text/javascript"></script>
     </body>
 </html>
