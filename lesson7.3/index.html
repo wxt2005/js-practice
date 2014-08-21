@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>按轨迹移动</title>
+        <style type="text/css">
+            body, div {
+                margin: 0;
+                padding: 0;
+            }
+            div {
+                position: absolute;
+                height: 50px;
+                width: 50px;
+                background: red;
+                top: 100px;
+                left: 50px;
+            }
+            p, input {
+                margin: 10px;
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload = function() {
+                var div = document.getElementsByTagName("div")[0];
+                var input = document.getElementsByTagName("input")
+                var p = document.getElementsByTagName("p")[0];
+                var i = 0;
+
+                function clearEvent() {
+            		document.onclick = null;
+            		document.onmousedown = null;
+            		document.onmousemove = null;
+            		document.onmouseup = null;
+            		for (i = 0; i < input.length; i++)
+            		{
+            			input[i].value = input[i].value.replace("(已激活)", "");
+            			input[i].onmouseup = function (event) {
+            				(event || window.event).cancelBubble = true;
+            			};
+                        input[i].onmousedown = input[i].onmouseup;
+            		}
+            	}
+
+                function doMove(obj, target, func) {
+                    var x = (target.x - obj.offsetLeft) / 5;
+                    var y = (target.y - obj.offsetTop) / 5;
+                    x = x > 0 ? Math.ceil(x) : Math.floor(x);
+                    y = y > 0 ? Math.ceil(y) : Math.floor(y);
+                    if (target.x === obj.offsetLeft && target.y === obj.offsetTop) {
+                        clearInterval(obj.timer);
+                        func && func();
+                    } else {
+                        obj.style.left = obj.offsetLeft + x + "px";
+                        obj.style.top = obj.offsetTop + y + "px";
+                    }
+                }
+
+                function startMove(obj, target, func) {
+                    clearInterval(obj.timer);
+                    obj.timer = setInterval(function() {
+                        doMove(obj, target, func);
+                    }, 30);
+                }
+
+                input[0].onclick = function(event) {
+                    (event || window.event).cancelBubble = true;
+                    clearEvent();
+                    this.value += "(已激活)";
+                    p.innerHTML = "鼠标点击页面，方块将移动至鼠标位置";
+                    document.onclick = function(event) {
+                        var ev = event || window.event;
+                        div.style.background = "blue";
+                        startMove(div, {x: ev.clientX, y: ev.clientY}, function() {
+                            div.style.background = "red";
+                        })
+                        return false;
+                    }
+                }
+
+                input[1].onclick = function(event) {
+                    (event || window.event).cancelBubble = true;
+                    clearEvent();
+                    this.value += "(已激活)";
+                    p.innerHTML = "按住鼠标左键，在页面划动，方块将按照鼠标轨迹移动";
+                    var pos = [{x: div.offsetLeft, y: div.offsetTop}];
+                    document.onmousedown = function(event) {
+                        var ev = event || window.event;
+                        pos.push({x: ev.clientX, y: ev.clientY});
+                        document.onmousemove = function(event) {
+                            var ev = event || window.event;
+                            pos.push({x: ev.clientX, y: ev.clientY});
+                            return false;
+                        }
+                        return false;
+                    }
+                    document.onmouseup = function() {
+                        document.onmousemove = null;
+                        div.style.background = "blue";
+                        var timer = setInterval(function() {
+                            if(pos.length === 0) {
+                                clearInterval(timer);
+                                div.style.bakcground = "red";
+                                return;
+                            }
+                            div.style.left = pos[0].x + "px";
+                            div.style.top = pos[0].y + "px";
+                            pos.shift();
+                        }, 30);
+                    }
+                }
+            };
+        </script>
+    </head>
+    <body>
+        <input type="button"  value="根据鼠标点击位置移动">
+        <input type="button"  value="根据鼠标轨迹移动">
+        <p></p>
+        <div></div>
+    </body>
+</html>
