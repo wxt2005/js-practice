@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>带loading效果的图片切换</title>
+        <script type="text/javascript">
+            function getStyle(obj, attr) {
+                if (obj.currentStyle) {
+                    return obj.currentStyle[attr];
+                } else {
+                    return getComputedStyle(obj, null)[attr];
+                }
+            }
+            window.onload = function() {
+                var big = document.getElementById("big");
+                var masksL = document.getElementById("masksL");
+                var masksR = document.getElementById("masksR");
+                var buttonL = document.getElementById("buttonL");
+                var buttonR = document.getElementById("buttonR");
+                var title = document.getElementById("title");
+                var span = title.getElementsByTagName("span")[0];
+                var now = 0;
+                var data = [
+                    {"imgSrc": "img/1.jpg", "title": "图片一"},
+                    {"imgSrc": "img/2.jpg", "title": "图片二"},
+                    {"imgSrc": "img/3.png", "title": "图片三"},
+                    {"imgSrc": "img/4.jpg", "title": "图片四"},
+                    {"imgSrc": "img/5.jpg", "title": "图片五"}
+                ]
+
+                buttonL.onclick = function() {
+                    if (now <= 0) {
+                        alert("已无上一张图");
+                        return;
+                    }
+                    now--;
+                    loadImg();
+                };
+
+                buttonR.onclick = function() {
+                    if (now >= data.length - 1) {
+                        alert("已无下一张图");
+                        return;
+                    }
+                    now++;
+                    loadImg();
+                }
+
+                function doMove(obj, attr, target, endFunc) {
+                    var current = parseFloat(getStyle(obj, attr));
+                    if (attr === "opacity") {
+                        current = parseInt(current * 100);
+                    }
+                    var speed = (target - current) / 5;
+                    speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+                    if (target === current) {
+                        clearInterval(obj.timer);
+                        if (endFunc) {
+                            endFunc();
+                        }
+                    } else {
+                        if (attr === "opacity") {
+                            obj.style.filter = "alpha(opacity=" + (current + speed) + ")";
+                            obj.style.opacity = (current + speed) / 100;
+                        } else {
+                            obj.style[attr] = current + speed + "px";
+                        }
+                    }
+                }
+
+                function startMove(obj, attr, target, endFunc) {
+                    clearInterval(obj.timer);
+                    obj.timer = setInterval(function() {
+                        doMove(obj, attr, target, endFunc);
+                    }, 30);
+                }
+
+                masksL.onmouseover = function() {
+                    startMove(buttonL, "opacity", 100);
+                }
+                buttonL.onmouseover = masksL.onmouseover;
+                masksL.onmouseout = function() {
+                    startMove(buttonL, "opacity", 0);
+                }
+                buttonL.onmouseout = masksL.onmouseout;
+
+                masksR.onmouseover = function() {
+                    startMove(buttonR, "opacity", 100);
+                }
+                buttonR.onmouseover = masksR.onmouseover;
+                masksR.onmouseout = function() {
+                    startMove(buttonR, "opacity", 0);
+                }
+                buttonR.onmouseout = masksR.onmouseout;
+
+                function loadImg() {
+                    big.className = "loading";
+                    span.style.opacity = 0;
+                    span.style.filter = "alpha(opacity=0)";
+                    title.style.height = 0;
+                    var oldImg = big.getElementsByTagName("img");
+                    if (oldImg[0]) {
+                        big.removeChild(oldImg[0]);
+                    }
+                    var newImg = document.createElement("img");
+                    var tempImg = new Image();
+                    tempImg.onload = function() {
+                        big.className = "";
+                        newImg.src = this.src;
+                        big.appendChild(newImg);
+                        if (newImg.offsetWidth > 800) {
+                            newImg.style.width = "800px";
+                        } else {
+                            newImg.style.width = newImg.offsetWidth + "px";
+                        }
+                        newImg.style.height = newImg.offsetHeight * newImg.offsetWidth /
+                            newImg.style.width + "px";
+                        big.style.height = newImg.style.height;
+                        span.innerHTML = data[now].title;
+                        startMove(title, "height", 50, function() {
+                            startMove(span, "opacity", 100);
+                        });
+                    };
+                    tempImg.src = data[now].imgSrc;
+                }
+
+                loadImg();
+            };
+        </script>
+        <style type="text/css">
+            body, div {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                background: #000;
+            }
+            #big {
+                position: relative;
+                width: 800px;
+                min-height: 400px;
+                margin: 20px auto;
+                text-align: center;
+            }
+            #big.loading {
+                background: url("img/loading.gif") 50% 50% no-repeat;
+            }
+            #title {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                background: #000;
+                color: #fff;
+                opacity: 0.7;
+                filter: alpha(opacity=70);
+                font-size: 20px;
+                height: 50px;
+            }
+            #title span {
+                padding: 0 5px;
+                line-height: 50px;
+                display: block;
+            }
+            #masksL, #masksR {
+                position: absolute;
+                top: 0;
+                width: 400px;
+                height: 100%;
+                cursor: pointer;
+                background: #f0f0f0;
+                opacity: 0;
+                filter: alpha(opacity=0);
+            }
+            #masksL {
+                left: 0;
+            }
+            #masksR {
+                right: 0;
+            }
+            #buttonL, #buttonR {
+                position: absolute;
+                top: 50%;
+                margin-top: -40px;
+                width: 39px;
+                height: 80px;
+                overflow: hidden;
+                cursor: pointer;
+                text-indent: -9999px;
+                background: url("img/button.png") no-repeat;
+                opacity: 0;
+                filter: alpha(opacity=0);
+            }
+            #buttonL {
+                left: 10px;
+                background-position: 0 0;
+            }
+            #buttonR {
+                right: 10px;
+                background-position: -39px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="big">
+            <div id="masksL"></div>
+            <div id="masksR"></div>
+            <div id="buttonL">previous</div>
+            <div id="buttonR">next</div>
+            <div id="title">
+                <span></span>
+            </div>
+        </div>
+    </body>
+</html>
